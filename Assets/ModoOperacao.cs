@@ -4,7 +4,7 @@ namespace AssemblyCSharp
 {
 	public interface ModoOperacao
 	{
-		void executar (int quantum);
+		int atualizarDeadline (int quantum);
 	}
 }
 

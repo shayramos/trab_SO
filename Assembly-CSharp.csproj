@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\ComDeadline.cs" />
+     <Compile Include="Assets\Escalonador.cs" />
      <Compile Include="Assets\ModoOperacao.cs" />
      <Compile Include="Assets\Processo.cs" />
      <Compile Include="Assets\RoundRobin.cs" />

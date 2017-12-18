@@ -8,8 +8,9 @@ namespace AssemblyCSharp
 		{
 			
 		}
-		public void executar(int quantum) {
-			
+		public int atualizarDeadline(int quantum)
+		{
+			return quantum;
 		}
 	}
 }
