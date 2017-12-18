@@ -46,6 +46,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ComDeadline.cs" />
+     <Compile Include="Assets\ModoOperacao.cs" />
+     <Compile Include="Assets\Processo.cs" />
+     <Compile Include="Assets\RoundRobin.cs" />
+     <Compile Include="Assets\SemPreempcao.cs" />
      <Compile Include="Assets\main.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
