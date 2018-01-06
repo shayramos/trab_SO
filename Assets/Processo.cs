@@ -8,7 +8,7 @@ namespace AssemblyCSharp
 		private ModoOperacao modo;
 		private bool terminado = false;
 
-		public Processo (int tempoChegada,int tempoExecucao, int deadline)
+		public Processo (int tempoChegada, int tempoExecucao, int deadline)
 		{
 			this.tempoChegada = tempoChegada;
 			this.tempoExecucao = tempoExecucao;
@@ -17,11 +17,11 @@ namespace AssemblyCSharp
 			this.modo = new ComDeadline ();
 		}
 			
-		public Processo (int tempoChegada,int tempoExecucao)
+		public Processo (int tempoChegada, int tempoExecucao)
 		{
 			this.tempoChegada = tempoChegada;
 			this.tempoExecucao = tempoExecucao;
-			this.deadline = null;
+			//this.deadline = null;
 			this.tempoExecutado = 0;
 			this.modo = new RoundRobin ();
 		}
@@ -37,22 +37,27 @@ namespace AssemblyCSharp
 				this.terminado = true;
 			}
 		}
-		public int TempoExecutado {
+
+		public int TempoExecutado 
+		{
 			get {
 				return this.tempoExecutado;
 			}
 
 		}
 
-		public bool Terminado {
+		public bool Terminado 
+		{
 			get {
 				return this.terminado;
 			}
-
 		}
+
 		public int TempoExecucao
 		{
-			get {return this.tempoExecucao;}
+			get {
+				return this.tempoExecucao;
+			}
 		}
 
 		public int Prioridade {
@@ -63,8 +68,8 @@ namespace AssemblyCSharp
 				prioridade = value;
 			}
 		}
+
 	}
 
-		
 }
 
