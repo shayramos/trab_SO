@@ -8,22 +8,23 @@ namespace AssemblyCSharp
 		private ModoOperacao modo;
 		private bool terminado = false;
 
-		public Processo (int tempoChegada, int tempoExecucao, int deadline)
+		public Processo (int tempoChegada, int tempoExecucao, int deadline, int prioridade = 0)
 		{
 			this.tempoChegada = tempoChegada;
 			this.tempoExecucao = tempoExecucao;
 			this.deadline = deadline;
 			this.tempoExecutado = 0;
 			this.modo = new ComDeadline ();
+			this.prioridade = prioridade;
 		}
 			
-		public Processo (int tempoChegada, int tempoExecucao)
+		public Processo (int tempoChegada, int tempoExecucao, int prioridade = 0)
 		{
 			this.tempoChegada = tempoChegada;
 			this.tempoExecucao = tempoExecucao;
-			//this.deadline = null;
 			this.tempoExecutado = 0;
 			this.modo = new RoundRobin ();
+			this.prioridade = prioridade;
 		}
 
 		public void executar(int quantum)
