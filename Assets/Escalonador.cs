@@ -6,39 +6,65 @@ namespace AssemblyCSharp
 {
 	public class Escalonador
 	{
-		Queue<Processo>[] prioridades;
+		private List<Processo>[] prioridades;
+		private int tempo;
+		private AlgoritmoEscalonamento algoritmo;
 
 
-		public Escalonador ()
+
+		public Escalonador (AlgoritmoEscalonamento algoritmo)
 		{
-			prioridades = new Queue<Processo>[10]; //Dez prioridades?
+			this.tempo = 0;
+			prioridades = new List<Processo>[10]; //Dez prioridades?
 			for (int i = 0; i < prioridades.Length; i++) {
-				prioridades [i] = new Queue<Processo> ();
+				prioridades [i] = new List<Processo> ();
 			}
-
+			this.algoritmo = algoritmo;
 		}
 
 		public void adicionaProcesso(Processo processo)
 		{
-			prioridades [processo.Prioridade].Enqueue (processo);
+			prioridades [processo.Prioridade].Add (processo);
 		}
 
-		public Processo obterProximoProcesso()
+		public Processo obterProximoProcessoPrioridades()
 		{
 			for (int i = prioridades.Length - 1; i >= 0; i--) {
 				if (prioridades [i].Count > 0) {
-					return prioridades [i].Dequeue ();
+					Processo temp = prioridades [i].Find (x => x != null); //encontre o primeiro não nulo => encontre o primeiro elemento
+					prioridades [i].RemoveAt (0);
+					return temp;
 				}
 			}
 			throw new InvalidOperationException ("Não existem processos na fila de espera!"); 
 		}
 
+		public Processo obterProximoProcessoSJF()
+		{
+			IEnumerator<Processo> procEnum = prioridades[0].GetEnumerator();
+			Processo temp = procEnum.Current;
+			while (procEnum.MoveNext ()) {
+				if (temp.TempoExecucao > procEnum.Current.TempoExecucao) {
+					temp = procEnum.Current;
+				}
+			}
+			return temp;
+		}
+
 		public void executar() 
 		{
-			Processo executando = obterProximoProcesso();
-
-			adicionaProcesso (executando);
+			algoritmo.executar (this);
 		}
+
+		public int Tempo {
+			get {
+				return this.tempo;
+			}
+			set {
+				tempo = value;
+			}
+		}
+
 
 	}
 }
