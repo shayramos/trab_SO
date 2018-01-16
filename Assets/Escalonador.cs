@@ -7,14 +7,18 @@ namespace AssemblyCSharp
 	public class Escalonador
 	{
 		private List<Processo>[] prioridades;
-		private int tempo;
+		private int tempoPreempcaoIni, tempo;
 		private AlgoritmoEscalonamento algoritmo;
+		private Processo executando;
+		private bool preempcao;
+		private readonly int tempoPreempcao;
 
 
 
 		public Escalonador (AlgoritmoEscalonamento algoritmo)
 		{
 			this.tempo = 0;
+			this.tempoPreempcao = (algoritmo.Preemptivo) ? 10 : 0; //se algoritmo for preemptivo, 
 			prioridades = new List<Processo>[10]; //Dez prioridades?
 			for (int i = 0; i < prioridades.Length; i++) {
 				prioridades [i] = new List<Processo> ();
@@ -25,6 +29,27 @@ namespace AssemblyCSharp
 		public void adicionaProcesso(Processo processo)
 		{
 			prioridades [processo.Prioridade].Add (processo);
+		}
+
+		public void inicializa() {
+			this.executando = algoritmo.obterProximoProcesso (this);
+		}
+
+		public void update()
+		{
+			tempo++;
+			if (algoritmo.executar (this)) {
+				this.tempoPreempcaoIni = this.tempo;
+				this.preempcao = true;
+			}
+			if (this.preempcao) {
+				if ((this.tempo - this.tempoPreempcaoIni) == this.tempoPreempcao) {
+					this.preempcao = false;
+					this.executando = algoritmo.obterProximoProcesso (this);
+				}
+			}
+
+
 		}
 
 		public Processo obterProximoProcessoPrioridades()
@@ -50,11 +75,7 @@ namespace AssemblyCSharp
 			}
 			return temp;
 		}
-
-		public void executar() 
-		{
-			algoritmo.executar (this);
-		}
+			
 
 		public int Tempo {
 			get {
@@ -62,6 +83,11 @@ namespace AssemblyCSharp
 			}
 			set {
 				tempo = value;
+			}
+		}
+		public Processo Executando {
+			get {
+				return this.executando;
 			}
 		}
 

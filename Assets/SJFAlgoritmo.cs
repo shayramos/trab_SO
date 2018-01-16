@@ -8,13 +8,23 @@ namespace AssemblyCSharp
 		{
 		}
 
-		public void executar (Escalonador esc)
+		public bool executar (Escalonador esc)
 		{
-			Processo exe;
-			exe = esc.obterProximoProcessoSJF ();
-			exe.executar (exe.TempoExecucao);
-			esc.Tempo += exe.TempoExecucao;
+			Processo executando = esc.Executando;
+			executando.executar (1);
+			return executando.Terminado;
+		}
+
+		public Processo obterProximoProcesso (Escalonador esc) {
+			return esc.obterProximoProcessoSJF ();
+		}
+
+		public bool Preemptivo {
+			get {
+				return false;
+			}
 		}
 	}
+
 }
 

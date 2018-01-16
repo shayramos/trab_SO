@@ -9,11 +9,20 @@ namespace AssemblyCSharp
 			
 		}
 
-		public void executar (Escalonador esc)
+		public bool executar (Escalonador esc)
 		{
-			Processo executando = esc.obterProximoProcessoPrioridades ();
-			executando.executar (executando.TempoExecucao);
-			esc.Tempo += executando.TempoExecucao;
+			Processo executando = esc.Executando;
+			executando.executar (1);
+			return executando.Terminado;
+		}
+
+		public Processo obterProximoProcesso (Escalonador esc) {
+			return esc.obterProximoProcessoPrioridades ();
+		}
+		public bool Preemptivo {
+			get {
+				return false;
+			}
 		}
 	}
 }

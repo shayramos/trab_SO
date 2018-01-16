@@ -3,14 +3,12 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\SJFAlgoritmo.cs">
     <Files>
       <File FileName="Assets\main.cs" Line="1" Column="1" />
-      <File FileName="Assets\ComDeadline.cs" Line="1" Column="1" />
       <File FileName="Assets\Processo.cs" Line="1" Column="1" />
-      <File FileName="Assets\Escalonador.cs" Line="33" Column="37" />
-      <File FileName="Assets\SemPreempcao.cs" Line="11" Column="32" />
-      <File FileName="Assets\AlgoritmoEscalonamento.cs" Line="1" Column="1" />
-      <File FileName="Assets\FIFOAlgoritmo.cs" Line="14" Column="61" />
-      <File FileName="Assets\RoundRobinAlgoritmo.cs" Line="17" Column="61" />
-      <File FileName="Assets\SJFAlgoritmo.cs" Line="16" Column="35" />
+      <File FileName="Assets\Escalonador.cs" Line="33" Column="3" />
+      <File FileName="Assets\AlgoritmoEscalonamento.cs" Line="14" Column="1" />
+      <File FileName="Assets\FIFOAlgoritmo.cs" Line="14" Column="4" />
+      <File FileName="Assets\RoundRobinAlgoritmo.cs" Line="31" Column="22" />
+      <File FileName="Assets\SJFAlgoritmo.cs" Line="27" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

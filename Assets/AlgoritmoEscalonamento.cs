@@ -4,7 +4,11 @@ namespace AssemblyCSharp
 {
 	public interface AlgoritmoEscalonamento
 	{
-		void executar (Escalonador esc);
+		bool Preemptivo {
+			get;
+		}
+		bool executar (Escalonador esc); // retornará true se for necessário trocar processo
+		Processo obterProximoProcesso (Escalonador esc);
 	}
 }
 
