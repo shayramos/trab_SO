@@ -54,7 +54,7 @@ namespace AssemblyCSharp
 		{
 			for (int i = prioridades.Length - 1; i >= 0; i--) {
 				if (prioridades [i].Count > 0) {
-					Processo temp = prioridades [i].Find (x => x != null); //encontre o primeiro não nulo => encontre o primeiro elemento
+					Processo temp = prioridades [i] [0]; //encontre o primeiro não nulo => encontre o primeiro elemento
 					prioridades [i].RemoveAt (0);
 					return temp;
 				}
@@ -90,6 +90,15 @@ namespace AssemblyCSharp
 		public Processo Executando {
 			get {
 				return this.executando;
+			}
+		}
+
+		public AlgoritmoEscalonamento Algoritmo {
+			get {
+				return this.algoritmo;
+			}
+			set {
+				this.algoritmo = value;
 			}
 		}
         

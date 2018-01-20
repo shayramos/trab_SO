@@ -11,13 +11,11 @@ namespace AssemblyCSharp
         public GameObject linhap1, linhap2, linhap3, linhap4, linhap5;
         static int index = 0;
         public main script_main;
-        Escalonador escalonador;
         Processo processo;
 
         // Use this for initialization
         void Start()
         {
-            
         }
 
         public int tempoChegada() {
@@ -28,6 +26,7 @@ namespace AssemblyCSharp
 
         public void ExecutarGrafico()
         {
+			script_main.escalonador.update ();
             if (this.processo.idProcesso == 0)
             {
                 if (script_main.escalonador.algoritmo.Preemptivo)
@@ -168,22 +167,20 @@ namespace AssemblyCSharp
         }
         public void Comeca()
         {
-            if (!(script_main.escalonador.algoritmo.executar(script_main.escalonador)))//se o processo não tiver terminado
-            {
-                escalonador.inicializa();                           //procura o proximo processo
-                this.processo = escalonador.executando;             //pega o processo que ta executando
-                InvokeRepeating("ExecutarGrafico", 1, 1);           //mostra no gráfico
-            }
-            else {
-                escalonador.update();
-            }
+			if (script_main.escalonador.Executando == null) {
+				script_main.escalonador.inicializa ();
+			}
+
+			InvokeRepeating ("ExecutarGrafico", 1, 1);
+
         }
+
 
         // Update is called once per frame
         void Update()
         {
 
         }
-
+			
     }
 }
