@@ -170,7 +170,7 @@ namespace AssemblyCSharp
         {
             if (!(script_main.escalonador.algoritmo.executar(script_main.escalonador)))//se o processo não tiver terminado
             {
-                escalonador.inicializa();               //procura o proximo processo
+                escalonador.inicializa();                           //procura o proximo processo
                 this.processo = escalonador.executando;             //pega o processo que ta executando
                 InvokeRepeating("ExecutarGrafico", 1, 1);           //mostra no gráfico
             }
