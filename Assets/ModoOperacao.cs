@@ -7,4 +7,3 @@ namespace AssemblyCSharp
 		int atualizarDeadline (int quantum);
 	}
 }
-

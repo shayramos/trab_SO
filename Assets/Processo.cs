@@ -3,11 +3,11 @@
 namespace AssemblyCSharp
 {
 	public class Processo
-	{
+    {
 		private int tempoChegada, tempoExecucao, deadline, prioridade, tempoExecutado;
 		private ModoOperacao modo;
 		private bool terminado = false;
-
+        
 		public Processo (int tempoChegada, int tempoExecucao, int deadline, int prioridade = 0)
 		{
 			this.tempoChegada = tempoChegada;

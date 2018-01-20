@@ -16,10 +16,12 @@ namespace AssemblyCSharp
 			return executando.Terminado;
 		}
 
-		public Processo obterProximoProcesso (Escalonador esc) {
+		public Processo obterProximoProcesso (Escalonador esc)
+        {
 			return esc.obterProximoProcessoPrioridades ();
 		}
-		public bool Preemptivo {
+
+        public bool Preemptivo {
 			get {
 				return false;
 			}

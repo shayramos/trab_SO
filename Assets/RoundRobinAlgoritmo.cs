@@ -20,8 +20,7 @@ namespace AssemblyCSharp
 				inicio = esc.Tempo;
 			}
 			return (esc.Tempo - this.inicio) == this.quantum;
-
-
+            
 		}
 
 		public Processo obterProximoProcesso (Escalonador esc) {

@@ -293,6 +293,7 @@
   <ItemGroup>
     <Compile Include="Assets\AlgoritmoEscalonamento.cs" />
     <Compile Include="Assets\ComDeadline.cs" />
+    <Compile Include="Assets\EDFAlgoritmo.cs" />
     <Compile Include="Assets\Escalonador.cs" />
     <Compile Include="Assets\FIFOAlgoritmo.cs" />
     <Compile Include="Assets\Grafico.cs" />
