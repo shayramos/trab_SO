@@ -8,8 +8,8 @@ namespace AssemblyCSharp
 	{
 		private List<Processo>[] prioridades;
 		private int tempoPreempcaoIni, tempo;
-		private AlgoritmoEscalonamento algoritmo;
-		private Processo executando;
+		public AlgoritmoEscalonamento algoritmo;
+		public Processo executando;
 		private bool preempcao;
 		private readonly int tempoPreempcao;
 
@@ -75,7 +75,7 @@ namespace AssemblyCSharp
 		}
 
         public Processo obterProximoProcessoEDF() {
-            Processo temp = new Processo(1,1,1,1);  //Coloquei só pra não dar erro
+            Processo temp = new Processo(1,1,1,1,1);  //Coloquei só pra não dar erro
             return temp;
         }
 

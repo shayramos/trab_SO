@@ -4,8 +4,11 @@ namespace AssemblyCSharp
 {
     public class EDFAlgoritmo : AlgoritmoEscalonamento
     {
-        public EDFAlgoritmo()
+        private int quantum;
+
+        public EDFAlgoritmo(int quantum)
         {
+            this.quantum = quantum;
         }
 
         public bool executar(Escalonador esc)
