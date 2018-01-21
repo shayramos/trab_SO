@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine;
 
 namespace AssemblyCSharp
 {
 	public class Escalonador
 	{
-		private List<Processo>[] prioridades;
+		public List<Processo>[] prioridades;
 		private int tempoPreempcaoIni, tempo;
 		public AlgoritmoEscalonamento algoritmo;
 		public Processo executando;
@@ -17,8 +18,8 @@ namespace AssemblyCSharp
         public Escalonador (AlgoritmoEscalonamento algoritmo)
 		{
 			this.tempo = 0;
-			this.tempoPreempcao = (algoritmo.Preemptivo) ? 5 : 0; //se algoritmo for preemptivo, 
-			prioridades = new List<Processo>[5]; //Dez prioridades?
+			this.tempoPreempcao = (algoritmo.Preemptivo) ? 1 : 0; //se algoritmo for preemptivo, 
+			prioridades = new List<Processo>[4]; //Dez prioridades?
 			for (int i = 0; i < prioridades.Length; i++) {
 				prioridades [i] = new List<Processo> ();
 			}
@@ -54,12 +55,12 @@ namespace AssemblyCSharp
 		{
 			for (int i = prioridades.Length - 1; i >= 0; i--) {
 				if (prioridades [i].Count > 0) {
-					Processo temp = prioridades [i] [0]; //encontre o primeiro não nulo => encontre o primeiro elemento
+                    Processo temp = prioridades [i] [0]; //encontre o primeiro não nulo => encontre o primeiro elemento
 					prioridades [i].RemoveAt (0);
 					return temp;
 				}
 			}
-			throw new InvalidOperationException ("Não existem processos na fila de espera!"); 
+			throw new InvalidOperationException ("Não existem processos na fila de espera!");
 		}
 
 		public Processo obterProximoProcessoSJF()
