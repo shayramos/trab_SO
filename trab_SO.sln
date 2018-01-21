@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trab_SO", "Assembly-CSharp.csproj", "{481FBAEC-C581-AC08-CA4A-84FEAF07EA5A}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trab_SO", "trab_SO.csproj", "{04E7A672-A98F-99FA-BDF3-DC9E531F8307}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,15 +9,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{481FBAEC-C581-AC08-CA4A-84FEAF07EA5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{481FBAEC-C581-AC08-CA4A-84FEAF07EA5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{481FBAEC-C581-AC08-CA4A-84FEAF07EA5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{481FBAEC-C581-AC08-CA4A-84FEAF07EA5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04E7A672-A98F-99FA-BDF3-DC9E531F8307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04E7A672-A98F-99FA-BDF3-DC9E531F8307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04E7A672-A98F-99FA-BDF3-DC9E531F8307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04E7A672-A98F-99FA-BDF3-DC9E531F8307}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal
