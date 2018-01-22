@@ -14,11 +14,12 @@ namespace AssemblyCSharp
 		private bool preempcao;
 		private readonly int tempoPreempcao;
 		private bool semProcesso;
-
+        private List<Processo> toBeLoaded;
 
         public Escalonador (AlgoritmoEscalonamento algoritmo)
 		{
 			this.tempo = 0;
+            toBeLoaded = new List<Processo>();
 			this.tempoPreempcao = (algoritmo.Preemptivo) ? 1 : 0; //se algoritmo for preemptivo, 
 			prioridades = new List<Processo>[4]; //Dez prioridades?
 			for (int i = 0; i < prioridades.Length; i++) {
@@ -30,18 +31,32 @@ namespace AssemblyCSharp
 
 		public void adicionaProcesso(Processo processo)
 		{
-			prioridades [processo.Prioridade].Add (processo);
-			semProcesso = false;
+			toBeLoaded.Add (processo);
 		}
+
+        public void carregaProcesso(int tempo)
+        {
+            foreach (Processo processo in toBeLoaded)
+            {
+                if (processo.tempoChegada == tempo)
+                {
+                    prioridades[processo.prioridade].Add(processo);
+                    semProcesso = false;
+                }
+            }
+            toBeLoaded.RemoveAll(x => x.tempoChegada == tempo); //remove todos cujos tempos de chegada sejam iguais ao tempo atual
+        }
 
 		public void inicializa()
         {
+            carregaProcesso(0);
 			this.executando = algoritmo.obterProximoProcesso (this);
 		}
 
 		public void update()
 		{
 			tempo++;
+            carregaProcesso(tempo);
 			try {
 				if (algoritmo.executar (this)) {
 					this.tempoPreempcaoIni = this.tempo;
@@ -129,6 +144,13 @@ namespace AssemblyCSharp
 			}
 		}
         
+        public int ProcessosAEntrar
+        {
+            get
+            {
+                return toBeLoaded.Count;
+            }
+        }
 	}
 }
 

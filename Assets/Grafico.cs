@@ -52,8 +52,9 @@ namespace AssemblyCSharp
         }
         public void GraficoPreemptivo()
         {
+            this.processo = script_main.escalonador.Executando;
             script_main.escalonador.update();
-
+            
         }
         public int LocalEntradaProcesso()
         {
@@ -70,18 +71,19 @@ namespace AssemblyCSharp
         }
         public void GraficoSemPreempcao()
         {
+            this.processo = script_main.escalonador.Executando;
+            
             if (!script_main.escalonador.SemProcesso)
             {
+                AtivaBarra(SaberLinha(), index);
                 
-                this.processo = script_main.escalonador.Executando;
-                script_main.escalonador.update();
-                AtivaBarra(SaberLinha(), LocalEntradaProcesso());
-                index++;
             }
-            else
+            else if (script_main.escalonador.ProcessosAEntrar == 0)
             {
                 CancelInvoke("GraficoSemPreempcao");
             }
+            script_main.escalonador.update();
+            index++;    
         }
        
         public void Comeca()
