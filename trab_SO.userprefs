@@ -1,16 +1,11 @@
-﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Escalonador.cs">
+﻿<Properties StartupItem="trab_SO.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\main.cs">
     <Files>
-      <File FileName="Assets\main.cs" Line="108" Column="3" />
+      <File FileName="Assets\main.cs" Line="27" Column="28" />
       <File FileName="Assets\Processo.cs" Line="1" Column="1" />
-      <File FileName="Assets\Escalonador.cs" Line="78" Column="76" />
-      <File FileName="Assets\AlgoritmoEscalonamento.cs" Line="1" Column="1" />
-      <File FileName="Assets\FIFOAlgoritmo.cs" Line="7" Column="4" />
-      <File FileName="Assets\RoundRobinAlgoritmo.cs" Line="20" Column="24" />
-      <File FileName="Assets\SJFAlgoritmo.cs" Line="26" Column="4" />
-      <File FileName="Assets\EDFAlgoritmo.cs" Line="9" Column="9" />
-      <File FileName="Assets\Grafico.cs" Line="29" Column="38" />
+      <File FileName="Assets\Escalonador.cs" Line="1" Column="1" />
+      <File FileName="Assets\Grafico.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

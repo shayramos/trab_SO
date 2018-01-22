@@ -13,6 +13,7 @@ namespace AssemblyCSharp
 		public Processo executando;
 		private bool preempcao;
 		private readonly int tempoPreempcao;
+		private bool semProcesso;
 
 
         public Escalonador (AlgoritmoEscalonamento algoritmo)
@@ -24,11 +25,13 @@ namespace AssemblyCSharp
 				prioridades [i] = new List<Processo> ();
 			}
 			this.algoritmo = algoritmo;
+			semProcesso = true;
 		}
 
 		public void adicionaProcesso(Processo processo)
 		{
 			prioridades [processo.Prioridade].Add (processo);
+			semProcesso = false;
 		}
 
 		public void inicializa()
@@ -39,15 +42,28 @@ namespace AssemblyCSharp
 		public void update()
 		{
 			tempo++;
-			if (algoritmo.executar (this)) {
-				this.tempoPreempcaoIni = this.tempo;
-				this.preempcao = true;
-			}
-			if (this.preempcao) {
-				if ((this.tempo - this.tempoPreempcaoIni) == this.tempoPreempcao) {
-					this.preempcao = false;
-					this.executando = algoritmo.obterProximoProcesso (this);
+			try {
+				if (algoritmo.executar (this)) {
+					this.tempoPreempcaoIni = this.tempo;
+					this.preempcao = true;
 				}
+				if (this.preempcao) {
+					if ((this.tempo - this.tempoPreempcaoIni) == this.tempoPreempcao) {
+						this.preempcao = false;
+						if (!this.executando.Terminado) {
+							this.prioridades [executando.prioridade].Add (this.executando);
+						}
+						this.executando = algoritmo.obterProximoProcesso (this);
+					}
+				}
+			}
+			catch (InvalidOperationException)
+            {
+                if (this.executando.Terminado)
+                {
+                    semProcesso = true;
+                }
+                
 			}
 		}
 
@@ -72,7 +88,11 @@ namespace AssemblyCSharp
 					temp = procEnum.Current;
 				}
 			}
-			return temp;
+			if (temp != null) {
+				return temp;
+			} else {
+				throw new InvalidOperationException ("");
+			}
 		}
 
         public Processo obterProximoProcessoEDF() {
@@ -100,6 +120,12 @@ namespace AssemblyCSharp
 			}
 			set {
 				this.algoritmo = value;
+			}
+		}
+
+		public bool SemProcesso {
+			get {
+				return this.semProcesso;
 			}
 		}
         

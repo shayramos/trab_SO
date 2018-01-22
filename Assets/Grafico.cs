@@ -70,11 +70,17 @@ namespace AssemblyCSharp
         }
         public void GraficoSemPreempcao()
         {
-            while (processo.tempoExecutado <= TempoExecucao())
+            if (!script_main.escalonador.SemProcesso)
             {
+                
+                this.processo = script_main.escalonador.Executando;
                 script_main.escalonador.update();
                 AtivaBarra(SaberLinha(), LocalEntradaProcesso());
                 index++;
+            }
+            else
+            {
+                CancelInvoke("GraficoSemPreempcao");
             }
         }
        
@@ -86,16 +92,17 @@ namespace AssemblyCSharp
             print(script_main.escalonador.prioridades[0].Count);
             //if (!(script_main.escalonador.algoritmo.executar(script_main.escalonador))) {
             if (script_main.escalonador.algoritmo.Preemptivo)
-                {
-                    InvokeRepeating("GraficoPreemptivo", 1, 1);
-                }
-                else
-                {
-                //InvokeRepeating("GraficoSemPreempcao", 1, 1);
-                while (script_main.escalonador.prioridades[0].Count > 0) {
-                    Invoke("GraficoSemPreempcao", 1);
-                }
-                }
+            {
+                InvokeRepeating("GraficoPreemptivo", 1, 1);
+            }
+            else
+            {
+                InvokeRepeating("GraficoSemPreempcao", 1, 0.5f);
+            }
+                //while (script_main.escalonador.prioridades[0].Count > 0) {
+				//Invoke("GraficoSemPreempcao", 1);
+                //}
+                
             //}
 			
         }
