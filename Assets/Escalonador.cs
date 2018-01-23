@@ -93,26 +93,56 @@ namespace AssemblyCSharp
 			}
 			throw new InvalidOperationException ("Não existem processos na fila de espera!");
 		}
-
-		public Processo obterProximoProcessoSJF()
+        
+        public Processo obterProximoProcessoSJF()
 		{
-			IEnumerator<Processo> procEnum = prioridades[0].GetEnumerator();
-			Processo temp = procEnum.Current;
-			while (procEnum.MoveNext ()) {
-				if (temp.TempoExecucao > procEnum.Current.TempoExecucao) {
-					temp = procEnum.Current;
-				}
-			}
-			if (temp != null) {
-				return temp;
-			} else {
-				throw new InvalidOperationException ("");
-			}
-		}
+            Processo temp;
+            for (int i = prioridades.Length - 1; i >= 0; i--){
+                IEnumerator<Processo> procEnum = prioridades[i].GetEnumerator();
+                procEnum.MoveNext();
+                temp = procEnum.Current;
+                if (prioridades[i].Count == 0) { }
+                else
+                {
+                    if (prioridades[i].Count == 1)
+                    {
+                        temp = prioridades[i][0];
+                        prioridades[i].Remove(temp);//remover
+                        return temp;
+                    }
+                    else if(prioridades[i].Count > 1)
+                    {
+                        while (procEnum.MoveNext())
+                        {
+                            if (temp.TempoExecucao >= procEnum.Current.TempoExecucao)
+                            {
+                                temp = procEnum.Current;
+                            }
+                        }
+                        prioridades[i].Remove(temp);//remover
+                    }
+                }
+                if (temp != null) return temp;
+            }
+                throw new InvalidOperationException("Não existem processos na fila de espera!");
+            
+        }
 
         public Processo obterProximoProcessoEDF() {
             Processo temp = new Processo(1,1,1,1,1);  //Coloquei só pra não dar erro
             return temp;
+        }
+
+        public void Reiniciar()
+        {
+            this.tempo = 0;
+            this.toBeLoaded.Clear();
+            semProcesso = true;
+
+            for (int i = 0; i < this.prioridades.Length; i++)
+            {
+                this.prioridades[i].Clear();
+            }
         }
 
         public int Tempo {

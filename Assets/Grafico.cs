@@ -69,14 +69,14 @@ namespace AssemblyCSharp
             }
             return tempo;
         }
+
         public void GraficoSemPreempcao()
         {
             this.processo = script_main.escalonador.Executando;
             
-            if (!script_main.escalonador.SemProcesso)
+            if (!script_main.escalonador.SemProcesso) 
             {
                 AtivaBarra(SaberLinha(), index);
-                
             }
             else if (script_main.escalonador.ProcessosAEntrar == 0)
             {
@@ -91,7 +91,7 @@ namespace AssemblyCSharp
 			if (script_main.escalonador.Executando == null) {
                 script_main.escalonador.inicializa ();
             }
-            print(script_main.escalonador.prioridades[0].Count);
+            //print(script_main.escalonador.prioridades[0].Count);
             //if (!(script_main.escalonador.algoritmo.executar(script_main.escalonador))) {
             if (script_main.escalonador.algoritmo.Preemptivo)
             {
@@ -101,14 +101,21 @@ namespace AssemblyCSharp
             {
                 InvokeRepeating("GraficoSemPreempcao", 1, 0.5f);
             }
-                //while (script_main.escalonador.prioridades[0].Count > 0) {
-				//Invoke("GraficoSemPreempcao", 1);
-                //}
-                
-            //}
-			
         }
 
+        public void Restart()
+        {
+            for(int i=0; i<linhap1.transform.childCount; i++)
+            {
+                linhap1.transform.GetChild(i).gameObject.SetActive(false);
+                linhap2.transform.GetChild(i).gameObject.SetActive(false);
+                linhap3.transform.GetChild(i).gameObject.SetActive(false);
+                linhap4.transform.GetChild(i).gameObject.SetActive(false);
+                linhap5.transform.GetChild(i).gameObject.SetActive(false);
+            }
+            index = 0;
+            script_main.escalonador.Reiniciar();
+        }
 
         // Update is called once per frame
         void Update()
