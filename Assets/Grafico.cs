@@ -98,11 +98,10 @@ namespace AssemblyCSharp
                 AtivaBarra(SaberLinha(), index);
                 index++;
             }
-            script_main.escalonador.update();
+            //script_main.escalonador.update();
 
-            //if (script_main.escalonador.ProcessosAEntrar == 0)
-            if(script_main.escalonador.prioridades == null)
-            //while (ind > 5)
+			if (script_main.escalonador.ProcessosAEntrar == 0 && script_main.escalonador.listaProcesso.Count > 0)
+            //if(script_main.escalonador.prioridades == null)
             {
                 print("entrou");
                 CancelInvoke("GraficoPreemptivo");

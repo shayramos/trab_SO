@@ -7,7 +7,7 @@ namespace AssemblyCSharp
 {
 	public class Escalonador
 	{
-		public List<Processo>[] prioridades;
+		public List<Processo> listaProcesso;
         private int tempoPreempcaoIni, tempo;
 		public AlgoritmoEscalonamento algoritmo;
 		public Processo executando;
@@ -22,23 +22,12 @@ namespace AssemblyCSharp
 			this.tempo = 0;
             toBeLoaded = new List<Processo>();
 			this.tempoPreempcao = (algoritmo.Preemptivo) ? 1 : 0; //se algoritmo for preemptivo, 
-			prioridades = new List<Processo>[4]; //Dez prioridades?
-			for (int i = 0; i < prioridades.Length; i++) {
-				prioridades [i] = new List<Processo> ();
-			}
+			listaProcesso = new List<Processo>(); 
 			this.algoritmo = algoritmo;
 			semProcesso = true;
 		}
-
-        int it;
-        public int Iterador
-        {
-            set
-            {
-               it = prioridades.Length-1;
-            }
-        }
-            public void adicionaProcesso(Processo processo)
+			
+        public void adicionaProcesso(Processo processo)
 		{
 			toBeLoaded.Add (processo);
 		}
@@ -49,7 +38,7 @@ namespace AssemblyCSharp
             {
                 if (processo.tempoChegada == tempo)
                 {
-                    prioridades[processo.prioridade].Add(processo);
+                    listaProcesso.Add(processo);
                     semProcesso = false;
                 }
             }
@@ -73,14 +62,17 @@ namespace AssemblyCSharp
 				}
 				if (this.preempcao) {
 					if ((this.tempo - this.tempoPreempcaoIni) == this.tempoPreempcao) {
-						this.preempcao = false;
-						if (!this.executando.Terminado) {
-							this.prioridades [executando.prioridade].Add (this.executando);
-						}
+						Processo temp;
+						temp = this.executando;
 						this.executando = algoritmo.obterProximoProcesso (this);
+						this.preempcao = false;
+						if (!temp.Terminado) {
+							this.listaProcesso.Add (temp);
+						}
 					}
 				}
 			}
+
 			catch (InvalidOperationException)
             {
                 if (this.executando.Terminado)
@@ -93,32 +85,30 @@ namespace AssemblyCSharp
 
 		public Processo obterProximoProcessoPrioridades()
 		{
-			for (int i = prioridades.Length - 1; i >= 0; i--) {
-				if (prioridades [i].Count > 0) {
-                    Processo temp = prioridades [i] [0]; //encontre o primeiro não nulo => encontre o primeiro elemento
-					prioridades [i].RemoveAt (0);
+				if (listaProcesso.Count > 0) {
+				Processo temp = listaProcesso.Find(x => x != null); //encontre o primeiro não nulo => encontre o primeiro elemento
+					listaProcesso.RemoveAt (0);
 					return temp;
 				}
-			}
 			throw new InvalidOperationException ("Não existem processos na fila de espera!");
 		}
         
         public Processo obterProximoProcessoSJF()
 		{
-            for (int i = prioridades.Length - 1; i >= 0; i--){
-                IEnumerator<Processo> procEnum = prioridades[i].GetEnumerator();
+            
+                IEnumerator<Processo> procEnum = listaProcesso.GetEnumerator();
                 procEnum.MoveNext();
                 Processo temp = procEnum.Current;
-                if (prioridades[i].Count == 0) { }
+                if (listaProcesso.Count == 0) { }
                 else
                 {
-                    if (prioridades[i].Count == 1)
+                    if (listaProcesso.Count == 1)
                     {
-                        temp = prioridades[i][0];
-                        prioridades[i].Remove(temp);//remover
+                        temp = listaProcesso[0];
+                        listaProcesso.Remove(temp);//remover
                         return temp;
                     }
-                    else if(prioridades[i].Count > 1)
+                    else if(listaProcesso.Count > 1)
                     {
                         while (procEnum.MoveNext())
                         {
@@ -127,45 +117,23 @@ namespace AssemblyCSharp
                                 temp = procEnum.Current;
                             }
                         }
-                        prioridades[i].Remove(temp);//remover
+                        listaProcesso.Remove(temp);//remover
                     }
                 }
                 if (temp != null) return temp;
-            }
                 throw new InvalidOperationException("Não existem processos na fila de espera!");
             
         }
 
         bool entrou = true;
         public Processo obterProximoProcessoRoundR()
-        {
-            //while (prioridades != null) {
-            //for (int i = prioridades.Length - 1; i >= 0; i--)
-            
-            while (it >= 0)
-            {
-                    if (prioridades[it].Count > 0)
-                    {
-                        //if(entrou)
-                        IEnumerator<Processo> procEnum = prioridades[it].GetEnumerator();
-                        procEnum.MoveNext();
-                        Processo temp = procEnum.Current;
-                        //prioridades[it][0]; //encontre o primeiro não nulo => encontre o primeiro elemento
-
-                        if ((temp.tempoExecucao - temp.tempoExecutado) == 0)
-                            prioridades[it].Remove(temp);
-
-                    //if (procEnum.MoveNext()) {    //Se tiver mais de um com a mesma prioridade.
-                    //Processo last = temp;
-                    //procEnum.MoveNext();
-                    //temp = procEnum.Current;
-                    //}
-                     it--;
-                    if(temp!=null)
-                        return temp; 
-                    }
-            }
-            it = prioridades.Length-1;
+        {           
+			if (listaProcesso.Count > 0) {
+				Processo temp = listaProcesso.Find(x => x != null); //encontre o primeiro não nulo => encontre o primeiro elemento
+				listaProcesso.Remove (temp);
+				if (temp != null)
+					return temp; 
+			}         
             throw new InvalidOperationException("Nova rodada!");
         }
 
@@ -181,11 +149,8 @@ namespace AssemblyCSharp
             this.tempo = 0;
             this.toBeLoaded.Clear();
             semProcesso = true;
-
-            for (int i = 0; i < this.prioridades.Length; i++)
-            {
-                this.prioridades[i].Clear();
-            }
+            this.listaProcesso.Clear();
+            
         }
 
         public int Tempo {

@@ -72,6 +72,15 @@ namespace AssemblyCSharp
 			}
 		}
 
+		public ModoOperacao Modo {
+			get {
+				return this.modo;
+			}
+			set {
+				this.modo = value;
+			}
+		}
+
 	}
 
 }

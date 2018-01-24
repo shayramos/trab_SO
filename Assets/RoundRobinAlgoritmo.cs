@@ -15,16 +15,13 @@ namespace AssemblyCSharp
 
 		public bool executar(Escalonador esc)
 		{
-            Processo executando = esc.Executando;
-            executando.executar(1);
-            return executando.Terminado;
-
-            /*if (!this.executando.Equals (esc.Executando)) {
+			if (this.executando != esc.Executando) {
 				this.executando = esc.Executando;
 				inicio = esc.Tempo;
+				this.executando.executar (1);
+			} else {
 			}
 			return (esc.Tempo - this.inicio) == this.quantum;
-	    */
         }
 
         public Processo obterProximoProcesso (Escalonador esc) {
@@ -35,6 +32,9 @@ namespace AssemblyCSharp
 		{
 			get {
 				return quantum;
+			}
+			set {
+				quantum = value;
 			}
 		}
 
