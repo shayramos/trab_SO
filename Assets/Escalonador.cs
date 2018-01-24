@@ -8,13 +8,14 @@ namespace AssemblyCSharp
 	public class Escalonador
 	{
 		public List<Processo>[] prioridades;
-		private int tempoPreempcaoIni, tempo;
+        private int tempoPreempcaoIni, tempo;
 		public AlgoritmoEscalonamento algoritmo;
 		public Processo executando;
 		private bool preempcao;
 		private readonly int tempoPreempcao;
 		private bool semProcesso;
         private List<Processo> toBeLoaded;
+
 
         public Escalonador (AlgoritmoEscalonamento algoritmo)
 		{
@@ -29,7 +30,15 @@ namespace AssemblyCSharp
 			semProcesso = true;
 		}
 
-		public void adicionaProcesso(Processo processo)
+        int it;
+        public int Iterador
+        {
+            set
+            {
+               it = prioridades.Length-1;
+            }
+        }
+            public void adicionaProcesso(Processo processo)
 		{
 			toBeLoaded.Add (processo);
 		}
@@ -96,11 +105,10 @@ namespace AssemblyCSharp
         
         public Processo obterProximoProcessoSJF()
 		{
-            Processo temp;
             for (int i = prioridades.Length - 1; i >= 0; i--){
                 IEnumerator<Processo> procEnum = prioridades[i].GetEnumerator();
                 procEnum.MoveNext();
-                temp = procEnum.Current;
+                Processo temp = procEnum.Current;
                 if (prioridades[i].Count == 0) { }
                 else
                 {
@@ -127,6 +135,41 @@ namespace AssemblyCSharp
                 throw new InvalidOperationException("Não existem processos na fila de espera!");
             
         }
+
+        bool entrou = true;
+        public Processo obterProximoProcessoRoundR()
+        {
+            //while (prioridades != null) {
+            //for (int i = prioridades.Length - 1; i >= 0; i--)
+            
+            while (it >= 0)
+            {
+                    if (prioridades[it].Count > 0)
+                    {
+                        //if(entrou)
+                        IEnumerator<Processo> procEnum = prioridades[it].GetEnumerator();
+                        procEnum.MoveNext();
+                        Processo temp = procEnum.Current;
+                        //prioridades[it][0]; //encontre o primeiro não nulo => encontre o primeiro elemento
+
+                        if ((temp.tempoExecucao - temp.tempoExecutado) == 0)
+                            prioridades[it].Remove(temp);
+
+                    //if (procEnum.MoveNext()) {    //Se tiver mais de um com a mesma prioridade.
+                    //Processo last = temp;
+                    //procEnum.MoveNext();
+                    //temp = procEnum.Current;
+                    //}
+                     it--;
+                    if(temp!=null)
+                        return temp; 
+                    }
+            }
+            it = prioridades.Length-1;
+            throw new InvalidOperationException("Nova rodada!");
+        }
+
+    
 
         public Processo obterProximoProcessoEDF() {
             Processo temp = new Processo(1,1,1,1,1);  //Coloquei só pra não dar erro

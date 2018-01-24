@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 namespace AssemblyCSharp
 {
@@ -17,6 +18,7 @@ namespace AssemblyCSharp
         // Use this for initialization
         void Start()
         {
+
         }
 
         public int TempoChegada() {
@@ -50,12 +52,7 @@ namespace AssemblyCSharp
             GameObject tempo = linha.transform.GetChild(index).gameObject;
             tempo.SetActive(true);
         }
-        public void GraficoPreemptivo()
-        {
-            this.processo = script_main.escalonador.Executando;
-            script_main.escalonador.update();
-            
-        }
+
         public int LocalEntradaProcesso()
         {
             int tempo;
@@ -73,8 +70,8 @@ namespace AssemblyCSharp
         public void GraficoSemPreempcao()
         {
             this.processo = script_main.escalonador.Executando;
-            
-            if (!script_main.escalonador.SemProcesso) 
+
+            if (!script_main.escalonador.SemProcesso)
             {
                 AtivaBarra(SaberLinha(), index);
             }
@@ -83,19 +80,51 @@ namespace AssemblyCSharp
                 CancelInvoke("GraficoSemPreempcao");
             }
             script_main.escalonador.update();
-            index++;    
+            index++;
         }
-       
+       // int ind = 0;
+        public void GraficoPreemptivo()
+        {
+            this.processo = script_main.escalonador.Executando; //pega o processo que ta executando na classe escalonador
+
+            if (!script_main.escalonador.SemProcesso)
+            {
+                AtivaBarra(SaberLinha(), index);
+                index++;
+            }
+            script_main.escalonador.update();
+            if ((this.processo.tempoExecucao - this.processo.tempoExecutado) >= 1)   //tempo de preempção
+            {
+                AtivaBarra(SaberLinha(), index);
+                index++;
+            }
+            script_main.escalonador.update();
+
+            //if (script_main.escalonador.ProcessosAEntrar == 0)
+            if(script_main.escalonador.prioridades == null)
+            //while (ind > 5)
+            {
+                print("entrou");
+                CancelInvoke("GraficoPreemptivo");
+            }
+            //ind++;
+        }
+
+        public void PintaBarra(GameObject linha, int index)
+        {
+            GameObject tempo = linha.transform.GetChild(index).gameObject;
+            //tempo.GetComponent<Renderer>().material.color = new Color(255f, 0f, 0f);
+            tempo.SetActive(true);
+        }
+
         public void Comeca()
         {
 			if (script_main.escalonador.Executando == null) {
-                script_main.escalonador.inicializa ();
+                script_main.escalonador.inicializa ();          //escolhe o próximo processo
             }
-            //print(script_main.escalonador.prioridades[0].Count);
-            //if (!(script_main.escalonador.algoritmo.executar(script_main.escalonador))) {
             if (script_main.escalonador.algoritmo.Preemptivo)
             {
-                InvokeRepeating("GraficoPreemptivo", 1, 1);
+                InvokeRepeating("GraficoPreemptivo", 1, 0.5f);
             }
             else
             {
@@ -115,6 +144,8 @@ namespace AssemblyCSharp
             }
             index = 0;
             script_main.escalonador.Reiniciar();
+            CancelInvoke("GraficoSemPreempcao");
+            CancelInvoke("GraficoPreemptivo");
         }
 
         // Update is called once per frame

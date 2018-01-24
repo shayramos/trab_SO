@@ -33,7 +33,7 @@ namespace AssemblyCSharp
 		{
 			if (this.terminado)
 				return;
-			this.tempoExecutado += (quantum < (this.tempoExecucao - this.tempoExecutado) ) ? quantum : this.tempoExecucao - this.tempoExecutado;
+			this.tempoExecutado += (quantum <= (this.tempoExecucao - this.tempoExecutado) ) ? quantum : this.tempoExecucao - this.tempoExecutado;
 			this.deadline += this.modo.atualizarDeadline(quantum);
 			if (this.tempoExecutado == this.tempoExecucao)
 			{
