@@ -57,8 +57,6 @@ namespace AssemblyCSharp
             carregaProcesso(tempo);
 			try {
                 if (algoritmo.executar (this)) {
-                bool exec = algoritmo.executar(this);
-
                     this.tempoPreempcaoIni = this.tempo;
 					this.preempcao = true;
                     Debug.Log("Executou");
@@ -185,8 +183,31 @@ namespace AssemblyCSharp
     
 
         public Processo obterProximoProcessoEDF() {
-            Processo temp = new Processo(1,1,1,1,1);  //Coloquei só pra não dar erro
-            return temp;
+			
+			IEnumerator<Processo> procEnum = listaProcesso.GetEnumerator();
+			procEnum.MoveNext();
+			Processo temp = procEnum.Current;
+			if (listaProcesso.Count == 0) { }
+			else
+			{
+				if (listaProcesso.Count == 1)
+				{
+					temp = listaProcesso[0];
+					listaProcesso.Remove(temp);//remover
+					return temp;
+				}
+				else if(listaProcesso.Count > 1)
+				{
+					while (procEnum.MoveNext())
+					{
+						if (temp.deadline >= procEnum.Current.deadline)
+							temp = procEnum.Current;
+					}
+					listaProcesso.Remove(temp);//remover
+				}
+			}
+			if (temp != null) return temp;
+			throw new InvalidOperationException("Não existem processos na fila de espera!");
         }
 
         public void Reiniciar()

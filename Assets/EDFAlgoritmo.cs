@@ -5,18 +5,24 @@ namespace AssemblyCSharp
     public class EDFAlgoritmo : AlgoritmoEscalonamento
     {
         private int quantum;
+		private Processo executando;
+		private int inicio;
 
         public EDFAlgoritmo(int quantum)
         {
             this.quantum = quantum;
         }
 
-        public bool executar(Escalonador esc)
-        {
-            Processo executando = esc.Executando;
-            executando.executar(1);
-            return executando.Terminado;
-        }
+		public bool executar(Escalonador esc)
+		{
+			if (this.executando != esc.Executando) {
+				this.executando = esc.Executando;
+				inicio = esc.Tempo;
+				this.executando.executar (1);
+			} else {
+			}
+			return (esc.Tempo - this.inicio) == this.quantum;
+		}
 
         public Processo obterProximoProcesso(Escalonador esc)
         {
@@ -27,7 +33,7 @@ namespace AssemblyCSharp
         {
             get
             {
-                return false;
+                return true;
             }
         }
     }
