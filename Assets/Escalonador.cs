@@ -53,18 +53,22 @@ namespace AssemblyCSharp
 
 		public void update()
 		{
-			tempo++;
+            tempo++;
             carregaProcesso(tempo);
 			try {
-				if (algoritmo.executar (this)) {
-					this.tempoPreempcaoIni = this.tempo;
+                if (algoritmo.executar (this)) {
+                bool exec = algoritmo.executar(this);
+
+                    this.tempoPreempcaoIni = this.tempo;
 					this.preempcao = true;
-				}
-				if (this.preempcao) {
+                    Debug.Log("Executou");
+                }
+                if (this.preempcao) {
 					if ((this.tempo - this.tempoPreempcaoIni) == this.tempoPreempcao) {
 						Processo temp;
 						temp = this.executando;
-						this.executando = algoritmo.obterProximoProcesso (this);
+                        Debug.Log("Preempcao");
+                        this.executando = algoritmo.obterProximoProcesso (this);
 						this.preempcao = false;
 						if (!temp.Terminado) {
 							this.listaProcesso.Add (temp);
@@ -83,7 +87,48 @@ namespace AssemblyCSharp
 			}
 		}
 
-		public Processo obterProximoProcessoPrioridades()
+        public void updatePreemptivo()
+        {
+            tempo++;
+            carregaProcesso(tempo);
+            try
+            {
+                //if (algoritmo.executar (this)) {
+                bool exec = algoritmo.executar(this);
+
+                this.tempoPreempcaoIni = this.tempo;
+                this.preempcao = true;
+                Debug.Log("Executou");
+                //}
+                if (this.preempcao)
+                {
+                    if ((this.tempo - this.tempoPreempcaoIni) == this.tempoPreempcao)
+                    {
+                        Processo temp;
+                        temp = this.executando;
+                        Debug.Log("Preempcao");
+                        this.executando = algoritmo.obterProximoProcesso(this);
+                        this.preempcao = false;
+                        if (!temp.Terminado)
+                        {
+                            this.listaProcesso.Add(temp);
+                        }
+                    }
+                }
+            }
+
+            catch (InvalidOperationException)
+            {
+                if (this.executando.Terminado)
+                {
+                    semProcesso = true;
+                }
+
+            }
+        }
+
+
+        public Processo obterProximoProcessoPrioridades()
 		{
 				if (listaProcesso.Count > 0) {
 				Processo temp = listaProcesso.Find(x => x != null); //encontre o primeiro não nulo => encontre o primeiro elemento

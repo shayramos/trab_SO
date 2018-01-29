@@ -86,13 +86,13 @@ namespace AssemblyCSharp
         public void GraficoPreemptivo()
         {
             this.processo = script_main.escalonador.Executando; //pega o processo que ta executando na classe escalonador
-
+            
             if (!script_main.escalonador.SemProcesso)
             {
                 AtivaBarra(SaberLinha(), index);
                 index++;
             }
-            script_main.escalonador.update();
+            script_main.escalonador.updatePreemptivo();
             if ((this.processo.tempoExecucao - this.processo.tempoExecutado) >= 1)   //tempo de preempção
             {
                 AtivaBarra(SaberLinha(), index);
@@ -103,7 +103,6 @@ namespace AssemblyCSharp
 			if (script_main.escalonador.ProcessosAEntrar == 0 && script_main.escalonador.listaProcesso.Count > 0)
             //if(script_main.escalonador.prioridades == null)
             {
-                print("entrou");
                 CancelInvoke("GraficoPreemptivo");
             }
             //ind++;
